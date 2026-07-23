@@ -12,13 +12,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Pretendard', sans-serif; }
-        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 6px 10px; }
+        body { font-family: 'Pretendard', sans-serif; overflow-x: hidden; }
+        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 6px 10px; word-break: break-all; }
+        
+        /* Auto-expanding textarea */
+        textarea.auto-expand {
+            resize: none;
+            overflow: hidden;
+            min-height: 80px;
+        }
+
         @media print {
-            @page { size: A4 portrait; margin: 10mm; }
-            body { background-color: #ffffff !important; padding: 0 !important; font-size: 11px !important; }
+            @page { size: A4 portrait; margin: 8mm; }
+            body { background-color: #ffffff !important; padding: 0 !important; font-size: 10.5px !important; }
             .no-print { display: none !important; }
-            .print-container { box-shadow: none !important; border: 1px solid #000 !important; padding: 15px !important; width: 100% !important; max-width: none !important; }
+            .print-container { box-shadow: none !important; border: none !important; padding: 0 !important; width: 100% !important; max-width: none !important; overflow: visible !important; }
             input, textarea { border: none !important; background: transparent !important; resize: none !important; }
         }
     </style>
@@ -27,7 +35,7 @@
 
     <!-- Top Action Bar -->
     <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30 border-b border-slate-800 no-print">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <span class="text-xl">📋</span>
                 <h1 class="text-sm font-bold tracking-tight">DAILY CONSTRUCTION REPORT SYSTEM</h1>
@@ -45,7 +53,7 @@
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+    <main class="max-w-4xl mx-auto px-4 py-6 space-y-6">
         
         <!-- Filter Bar -->
         <section class="bg-blue-900 text-white rounded-xl shadow p-4 flex flex-col sm:flex-row justify-between items-center gap-3 no-print">
@@ -65,7 +73,7 @@
         </section>
 
         <!-- Main Report Document Container -->
-        <div id="pdf-content" class="bg-white rounded-xl shadow-xl border-2 border-slate-800 overflow-hidden p-6 md:p-8 space-y-5 print-container">
+        <div id="pdf-content" class="bg-white rounded-xl shadow-xl border-2 border-slate-800 p-6 md:p-8 space-y-5 print-container">
             
             <!-- Document Header -->
             <div class="border-b-2 border-slate-900 pb-3 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -84,7 +92,7 @@
                     <tr>
                         <td class="bg-slate-100 font-bold w-24">Department</td>
                         <td><input type="text" id="rep-dept" value="Civil Works Division" class="w-full outline-none font-medium text-slate-800"></td>
-                        <td class="bg-slate-100 font-bold w-20">Date</td>
+                        <td class="bg-slate-100 font-bold w-16">Date</td>
                         <td><input type="date" id="rep-date" class="w-full outline-none font-medium text-slate-800"></td>
                         <td class="bg-slate-100 font-bold w-20">Weather</td>
                         <td><input type="text" id="rep-weather" value="A.M. Sunny / P.M. Cloudy" class="w-full outline-none font-medium text-slate-800"></td>
@@ -129,7 +137,7 @@
                     </div>
                 </form>
 
-                <div class="overflow-x-auto">
+                <div>
                     <table class="w-full text-xs report-table border-collapse">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 text-center">
@@ -176,7 +184,7 @@
                         </div>
                     </form>
 
-                    <div class="overflow-x-auto">
+                    <div>
                         <table class="w-full text-xs report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
@@ -217,7 +225,7 @@
                         </div>
                     </form>
 
-                    <div class="overflow-x-auto">
+                    <div>
                         <table class="w-full text-xs report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
@@ -238,7 +246,7 @@
                 <div class="bg-blue-900 text-white px-3 py-1.5 font-bold text-xs tracking-wide rounded-t">
                     <span>5. REMARKS / NEXT PLAN</span>
                 </div>
-                <textarea id="site-note" rows="3" placeholder="• Enter remarks or next plan details..." class="w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs resize-none focus:ring-1 focus:ring-blue-500"></textarea>
+                <textarea id="site-note" rows="3" placeholder="• Enter remarks or next plan details..." class="auto-expand w-full bg-slate-50 border border-slate-300 rounded p-2.5 text-xs focus:ring-1 focus:ring-blue-500"></textarea>
             </div>
 
             <!-- 6. SITE PHOTOS GALLERY -->
@@ -312,6 +320,13 @@
         const equipmentTableBody = document.getElementById('equipment-table-body');
         const photoForm = document.getElementById('photo-form');
         const photoGallery = document.getElementById('photo-gallery');
+
+        // Auto-expand textarea behavior
+        const siteNote = document.getElementById('site-note');
+        siteNote.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
 
         function renderAll() {
             const selectedDate = filterDateInput.value;
@@ -550,7 +565,7 @@
         function exportToPDF() {
             const element = document.getElementById('pdf-content');
             const opt = {
-                margin:       [5, 5, 5, 5],
+                margin:       [4, 4, 4, 4],
                 filename:     `Daily_Construction_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
                 image:        { type: 'jpeg', quality: 0.95 },
                 html2canvas:  { scale: 2, useCORS: true },
