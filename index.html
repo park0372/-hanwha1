@@ -14,7 +14,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Pretendard', sans-serif; overflow-x: hidden; font-size: 11px; }
         .report-table { table-layout: fixed; width: 100%; }
-        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 4px 6px; word-break: break-all; overflow: hidden; }
+        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 4px 5px; word-break: break-all; overflow: hidden; }
         
         textarea.auto-expand {
             resize: none;
@@ -190,11 +190,11 @@
                         <table class="w-full text-[11px] report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
-                                    <th style="width: 36%;">Position / Name</th>
-                                    <th style="width: 13%;" class="text-center">Today</th>
-                                    <th style="width: 27%;" class="text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th style="width: 12%;" class="text-center">Remark</th>
-                                    <th style="width: 12%;" class="text-center no-print">Action</th>
+                                    <th style="width: 36%;" class="whitespace-nowrap">Position / Name</th>
+                                    <th style="width: 14%;" class="text-center whitespace-nowrap">Today</th>
+                                    <th style="width: 15%;" class="text-center bg-blue-50 text-blue-900 whitespace-nowrap">Cumul.</th>
+                                    <th style="width: 23%;" class="text-center whitespace-nowrap">Remark</th>
+                                    <th style="width: 12%;" class="text-center no-print whitespace-nowrap">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="resource-table-body"></tbody>
@@ -228,11 +228,11 @@
                         <table class="w-full text-[11px] report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
-                                    <th style="width: 36%;">Equipment Name</th>
-                                    <th style="width: 13%;" class="text-center">Today</th>
-                                    <th style="width: 27%;" class="text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th style="width: 12%;" class="text-center">Remark</th>
-                                    <th style="width: 12%;" class="text-center no-print">Action</th>
+                                    <th style="width: 36%;" class="whitespace-nowrap">Equipment Name</th>
+                                    <th style="width: 14%;" class="text-center whitespace-nowrap">Today</th>
+                                    <th style="width: 15%;" class="text-center bg-blue-50 text-blue-900 whitespace-nowrap">Cumul.</th>
+                                    <th style="width: 23%;" class="text-center whitespace-nowrap">Remark</th>
+                                    <th style="width: 12%;" class="text-center no-print whitespace-nowrap">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="equipment-table-body"></tbody>
