@@ -189,10 +189,10 @@
                         <table class="w-full text-[11px] report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
-                                    <th class="w-[28%]">Position / Name</th>
+                                    <th class="w-[32%]">Position / Name</th>
                                     <th class="w-[12%] text-center">Today</th>
-                                    <th class="w-[16%] text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th class="w-[32%] text-center">Remark</th>
+                                    <th class="w-[22%] text-center bg-blue-50 text-blue-900">Cumulative</th>
+                                    <th class="w-[22%] text-center">Remark</th>
                                     <th class="w-[12%] text-center no-print">Action</th>
                                 </tr>
                             </thead>
@@ -227,10 +227,10 @@
                         <table class="w-full text-[11px] report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
-                                    <th class="w-[28%]">Equipment Name</th>
+                                    <th class="w-[32%]">Equipment Name</th>
                                     <th class="w-[12%] text-center">Today</th>
-                                    <th class="w-[16%] text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th class="w-[32%] text-center">Remark</th>
+                                    <th class="w-[22%] text-center bg-blue-50 text-blue-900">Cumulative</th>
+                                    <th class="w-[22%] text-center">Remark</th>
                                     <th class="w-[12%] text-center no-print">Action</th>
                                 </tr>
                             </thead>
@@ -405,7 +405,7 @@
                             <td class="font-bold">${item.count}</td>
                             <td class="font-extrabold text-blue-800 bg-blue-50/50">${cumVal.toLocaleString()}</td>
                             <td class="text-left">
-                                <input type="text" value="${item.remark || ''}" onchange="updateRemark('resources', ${originalIdx}, this.value)" placeholder="Remark..." class="w-full bg-transparent outline-none text-[11px]">
+                                <input type="text" value="${item.remark || ''}" onchange="updateRemark('resources', ${originalIdx}, this.value)" class="w-full bg-transparent outline-none text-[11px]">
                             </td>
                             <td class="no-print text-center">
                                 <button onclick="deleteData('resources', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Delete</button>
@@ -428,7 +428,7 @@
                             <td class="font-bold">${item.count}</td>
                             <td class="font-extrabold text-blue-800 bg-blue-50/50">${cumVal.toLocaleString()}</td>
                             <td class="text-left">
-                                <input type="text" value="${item.remark || ''}" onchange="updateRemark('equipments', ${originalIdx}, this.value)" placeholder="Remark..." class="w-full bg-transparent outline-none text-[11px]">
+                                <input type="text" value="${item.remark || ''}" onchange="updateRemark('equipments', ${originalIdx}, this.value)" class="w-full bg-transparent outline-none text-[11px]">
                             </td>
                             <td class="no-print text-center">
                                 <button onclick="deleteData('equipments', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Delete</button>
