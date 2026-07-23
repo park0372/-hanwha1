@@ -21,7 +21,8 @@
             min-height: 40px;
         }
 
-        /* 인쇄 및 PDF 출력 시 입력폼 및 삭제 버튼(no-print) 숨김 및 1페이지 최적화 */
+        /* 인쇄 및 PDF 출력 시 숨김 처리 */
+        .no-print { display: inline-block; } /* 기본값 복원 방지용 */
         @media print {
             @page { size: A4 portrait; margin: 4mm; }
             html, body {
@@ -39,8 +40,6 @@
                 padding: 0 !important;
                 width: 100% !important;
                 max-width: none !important;
-                transform: scale(0.96);
-                transform-origin: top center;
             }
             input, textarea { border: none !important; background: transparent !important; resize: none !important; }
         }
@@ -56,9 +55,9 @@
                 <h1 class="text-xs font-bold tracking-tight">DAILY CONSTRUCTION REPORT SYSTEM</h1>
             </div>
             <div class="flex items-center space-x-2">
-                <button onclick="exportToPDF()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded-md text-[11px] font-semibold shadow transition flex items-center space-x-1">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    <span>PDF Export</span>
+                <button onclick="openPdfPreview()" class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded-md text-[11px] font-semibold shadow transition flex items-center space-x-1">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    <span>PDF Preview & Export</span>
                 </button>
                 <button onclick="exportToExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 rounded-md text-[11px] font-semibold shadow transition flex items-center space-x-1">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -88,7 +87,7 @@
         </section>
 
         <!-- Main Report Document Container -->
-        <div id="pdf-content" class="bg-white p-4 md:p-5 space-y-3 print-container">
+        <div id="pdf-content" class="bg-white p-4 md:p-5 space-y-3 print-container shadow rounded-lg border border-slate-200">
             
             <!-- Document Header -->
             <div class="border-b-2 border-slate-900 pb-2 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
@@ -195,7 +194,8 @@
                                     <th>Position / Name</th>
                                     <th class="w-16 text-center">Today</th>
                                     <th class="w-20 text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th class="w-28 text-center">Remark</th>
+                                    <th class="text-center">Remark</th>
+                                    <th class="w-12 text-center no-print">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="resource-table-body"></tbody>
@@ -232,7 +232,8 @@
                                     <th>Equipment Name</th>
                                     <th class="w-16 text-center">Today</th>
                                     <th class="w-20 text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th class="w-28 text-center">Remark</th>
+                                    <th class="text-center">Remark</th>
+                                    <th class="w-12 text-center no-print">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="equipment-table-body"></tbody>
@@ -299,6 +300,28 @@
 
         </div>
     </main>
+
+    <!-- PDF Preview Modal -->
+    <div id="pdf-preview-modal" class="fixed inset-0 bg-slate-900/70 z-50 hidden flex justify-center items-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="bg-slate-900 text-white px-4 py-3 flex justify-between items-center">
+                <h3 class="text-sm font-bold flex items-center space-x-2">
+                    <span>🔍</span>
+                    <span>PDF Print Preview (Input forms and delete buttons are hidden)</span>
+                </h3>
+                <button onclick="closePdfPreview()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+            <div id="preview-body" class="p-6 overflow-y-auto bg-slate-100 flex-1 flex justify-center">
+                <!-- Cloned content for preview -->
+            </div>
+            <div class="bg-slate-100 border-t border-slate-200 px-4 py-3 flex justify-end space-x-2">
+                <button onclick="closePdfPreview()" class="bg-slate-500 hover:bg-slate-600 text-white px-4 py-1.5 rounded text-xs font-semibold transition">Cancel</button>
+                <button onclick="confirmExportToPDF()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-1.5 rounded text-xs font-semibold shadow transition flex items-center space-x-1">
+                    <span>📥 Confirm & Download PDF</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Script Logic -->
     <script>
@@ -373,7 +396,7 @@
 
             resourceTableBody.innerHTML = '';
             if (filteredResources.length === 0) {
-                resourceTableBody.innerHTML = `<tr><td colspan="4" class="p-2 text-center text-slate-400">No manpower data available.</td></tr>`;
+                resourceTableBody.innerHTML = `<tr><td colspan="5" class="p-2 text-center text-slate-400">No manpower data available.</td></tr>`;
             } else {
                 filteredResources.forEach((item, idx) => {
                     const originalIdx = resources.indexOf(item);
@@ -383,9 +406,11 @@
                             <td class="text-left font-medium text-slate-800">${item.name}</td>
                             <td class="font-bold">${item.count}</td>
                             <td class="font-extrabold text-blue-800 bg-blue-50/50">${cumVal.toLocaleString()}</td>
-                            <td class="text-left relative">
+                            <td class="text-left">
                                 <input type="text" value="${item.remark || ''}" onchange="updateRemark('resources', ${originalIdx}, this.value)" placeholder="Remark..." class="w-full bg-transparent outline-none text-[11px]">
-                                <button onclick="deleteData('resources', ${originalIdx})" class="absolute right-1 top-1 text-red-600 hover:underline font-semibold text-[9px] no-print" title="Delete">Del</button>
+                            </td>
+                            <td class="no-print text-center">
+                                <button onclick="deleteData('resources', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Del</button>
                             </td>
                         </tr>
                     `;
@@ -394,7 +419,7 @@
 
             equipmentTableBody.innerHTML = '';
             if (filteredEquips.length === 0) {
-                equipmentTableBody.innerHTML = `<tr><td colspan="4" class="p-2 text-center text-slate-400">No equipment data available.</td></tr>`;
+                equipmentTableBody.innerHTML = `<tr><td colspan="5" class="p-2 text-center text-slate-400">No equipment data available.</td></tr>`;
             } else {
                 filteredEquips.forEach((item, idx) => {
                     const originalIdx = equipments.indexOf(item);
@@ -404,9 +429,11 @@
                             <td class="text-left font-medium text-slate-800">${item.name}</td>
                             <td class="font-bold">${item.count}</td>
                             <td class="font-extrabold text-blue-800 bg-blue-50/50">${cumVal.toLocaleString()}</td>
-                            <td class="text-left relative">
+                            <td class="text-left">
                                 <input type="text" value="${item.remark || ''}" onchange="updateRemark('equipments', ${originalIdx}, this.value)" placeholder="Remark..." class="w-full bg-transparent outline-none text-[11px]">
-                                <button onclick="deleteData('equipments', ${originalIdx})" class="absolute right-1 top-1 text-red-600 hover:underline font-semibold text-[9px] no-print" title="Delete">Del</button>
+                            </td>
+                            <td class="no-print text-center">
+                                <button onclick="deleteData('equipments', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Del</button>
                             </td>
                         </tr>
                     `;
@@ -579,15 +606,39 @@
             XLSX.writeFile(wb, `Daily_Construction_Report_${new Date().toISOString().slice(0, 10)}.xlsx`);
         }
 
-        function exportToPDF() {
+        function openPdfPreview() {
+            const originalContent = document.getElementById('pdf-content');
+            const clone = originalContent.cloneNode(true);
+            
+            // 미리보기 화면에서는 no-print 요소들을 아예 제거하여 보여줌
+            const noPrintElements = clone.querySelectorAll('.no-print');
+            noPrintElements.forEach(el => el.remove());
+
+            const previewBody = document.getElementById('preview-body');
+            previewBody.innerHTML = '';
+            previewBody.appendChild(clone);
+
+            document.getElementById('pdf-preview-modal').classList.remove('hidden');
+        }
+
+        function closePdfPreview() {
+            document.getElementById('pdf-preview-modal').classList.add('hidden');
+        }
+
+        function confirmExportToPDF() {
+            closePdfPreview();
             const element = document.getElementById('pdf-content');
+            
+            // 임시로 인쇄용 스타일 적용을 위해 클래스 조작 후 html2pdf 실행
             const opt = {
                 margin:       [2, 2, 2, 2],
                 filename:     `Daily_Construction_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
                 image:        { type: 'jpeg', quality: 0.92 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, logging: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
+
+            // 인쇄 시에만 no-print가 확실히 숨겨지도록 처리 수행
             html2pdf().from(element).set(opt).save();
         }
 
