@@ -13,7 +13,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Pretendard', sans-serif; overflow-x: hidden; font-size: 11px; }
-        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 3px 6px; word-break: break-all; }
+        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 4px 8px; word-break: break-all; }
         
         textarea.auto-expand {
             resize: none;
@@ -22,16 +22,14 @@
         }
 
         /* 인쇄 및 PDF 출력 시 숨김 처리 */
-        .no-print { display: inline-block; } /* 기본값 복원 방지용 */
         @media print {
-            @page { size: A4 portrait; margin: 4mm; }
+            @page { size: A4 portrait; margin: 5mm; }
             html, body {
                 width: 210mm;
                 height: 297mm;
                 background-color: #ffffff !important;
                 padding: 0 !important;
                 margin: 0 !important;
-                font-size: 9px !important;
             }
             .no-print { display: none !important; }
             .print-container {
@@ -164,7 +162,7 @@
             </div>
 
             <!-- 2. MANPOWER & 3. EQUIPMENT -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <!-- 2. MANPOWER -->
                 <div class="space-y-1">
                     <div class="bg-blue-900 text-white px-2.5 py-1 font-bold text-[11px] tracking-wide">
@@ -192,8 +190,8 @@
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
                                     <th>Position / Name</th>
-                                    <th class="w-16 text-center">Today</th>
-                                    <th class="w-20 text-center bg-blue-50 text-blue-900">Cumulative</th>
+                                    <th class="w-14 text-center">Today</th>
+                                    <th class="w-16 text-center bg-blue-50 text-blue-900">Cumulative</th>
                                     <th class="text-center">Remark</th>
                                     <th class="w-12 text-center no-print">Action</th>
                                 </tr>
@@ -230,8 +228,8 @@
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
                                     <th>Equipment Name</th>
-                                    <th class="w-16 text-center">Today</th>
-                                    <th class="w-20 text-center bg-blue-50 text-blue-900">Cumulative</th>
+                                    <th class="w-14 text-center">Today</th>
+                                    <th class="w-16 text-center bg-blue-50 text-blue-900">Cumulative</th>
                                     <th class="text-center">Remark</th>
                                     <th class="w-12 text-center no-print">Action</th>
                                 </tr>
@@ -410,7 +408,7 @@
                                 <input type="text" value="${item.remark || ''}" onchange="updateRemark('resources', ${originalIdx}, this.value)" placeholder="Remark..." class="w-full bg-transparent outline-none text-[11px]">
                             </td>
                             <td class="no-print text-center">
-                                <button onclick="deleteData('resources', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Del</button>
+                                <button onclick="deleteData('resources', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Delete</button>
                             </td>
                         </tr>
                     `;
@@ -433,7 +431,7 @@
                                 <input type="text" value="${item.remark || ''}" onchange="updateRemark('equipments', ${originalIdx}, this.value)" placeholder="Remark..." class="w-full bg-transparent outline-none text-[11px]">
                             </td>
                             <td class="no-print text-center">
-                                <button onclick="deleteData('equipments', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Del</button>
+                                <button onclick="deleteData('equipments', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[10px]">Delete</button>
                             </td>
                         </tr>
                     `;
@@ -599,7 +597,7 @@
                 const ws2 = XLSX.utils.json_to_sheet(resources);
                 XLSX.utils.book_append_sheet(wb, ws2, "Manpower");
             }
-            if (reports.length > 0) {
+            if (equipments.length > 0) {
                 const ws3 = XLSX.utils.json_to_sheet(equipments);
                 XLSX.utils.book_append_sheet(wb, ws3, "Equipment");
             }
@@ -610,7 +608,6 @@
             const originalContent = document.getElementById('pdf-content');
             const clone = originalContent.cloneNode(true);
             
-            // 미리보기 화면에서는 no-print 요소들을 아예 제거하여 보여줌
             const noPrintElements = clone.querySelectorAll('.no-print');
             noPrintElements.forEach(el => el.remove());
 
@@ -629,7 +626,6 @@
             closePdfPreview();
             const element = document.getElementById('pdf-content');
             
-            // 임시로 인쇄용 스타일 적용을 위해 클래스 조작 후 html2pdf 실행
             const opt = {
                 margin:       [2, 2, 2, 2],
                 filename:     `Daily_Construction_Report_${new Date().toISOString().slice(0, 10)}.pdf`,
@@ -638,7 +634,6 @@
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // 인쇄 시에만 no-print가 확실히 숨겨지도록 처리 수행
             html2pdf().from(element).set(opt).save();
         }
 
