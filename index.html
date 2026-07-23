@@ -609,8 +609,19 @@
             const originalContent = document.getElementById('pdf-content');
             const clone = originalContent.cloneNode(true);
             
+            // 미리보기 화면에서 입력 폼 및 삭제 버튼 제거
             const noPrintElements = clone.querySelectorAll('.no-print');
             noPrintElements.forEach(el => el.remove());
+
+            // input, textarea 등의 요소를 일반 텍스트 형태로 보기 좋게 고정
+            clone.querySelectorAll('input, textarea').forEach(input => {
+                const span = document.createElement('span');
+                span.className = input.className;
+                span.style.cssText = "display: inline-block; border: none; background: transparent; font-weight: inherit;";
+                span.innerText = input.value || '';
+                if(input.type === 'date' && !input.value) span.innerText = '연도-월-일';
+                input.parentNode.replaceChild(span, input);
+            });
 
             const previewBody = document.getElementById('preview-body');
             previewBody.innerHTML = '';
@@ -624,8 +635,10 @@
         }
 
         function confirmExportToPDF() {
+            const previewContent = document.getElementById('preview-body').firstElementChild;
+            if (!previewContent) return;
+
             closePdfPreview();
-            const element = document.getElementById('pdf-content');
             
             const opt = {
                 margin:       [2, 2, 2, 2],
@@ -635,7 +648,7 @@
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().from(element).set(opt).save();
+            html2pdf().from(previewContent).set(opt).save();
         }
 
         renderAll();
