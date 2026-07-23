@@ -11,13 +11,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Pretendard', sans-serif; }
-        /* 인쇄 및 폼 테두리 최적화 스타일 */
         .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 8px 12px; }
     </style>
 </head>
 <body class="bg-slate-200 min-h-screen text-slate-900 pb-16">
 
-    <!-- Top Action Bar (언어전환 및 엑셀 다운로드) -->
+    <!-- Top Action Bar -->
     <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30 border-b border-slate-800">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -25,7 +24,6 @@
                 <h1 class="text-sm font-bold tracking-tight" data-i18n="top-bar-title">DAILY CONSTRUCTION REPORT SYSTEM</h1>
             </div>
             <div class="flex items-center space-x-3">
-                <!-- 언어 전환 버튼 -->
                 <div class="bg-slate-800 p-1 rounded-lg border border-slate-700 flex space-x-1">
                     <button onclick="setLanguage('ko')" id="lang-ko-btn" class="px-2.5 py-1 rounded-md text-xs font-bold transition bg-blue-600 text-white">한국어</button>
                     <button onclick="setLanguage('en')" id="lang-en-btn" class="px-2.5 py-1 rounded-md text-xs font-bold transition text-slate-400 hover:text-white">English</button>
@@ -64,7 +62,6 @@
             <div class="border-b-2 border-slate-900 pb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 class="text-2xl md:text-3xl font-black text-blue-950 tracking-wider">DAILY CONSTRUCTION REPORT</h1>
-                    <p class="text-xs text-slate-505 font-medium mt-0.5">BNCP Civil & Infrastructure Project Management</p>
                 </div>
                 <div class="border border-slate-400 px-4 py-2 rounded bg-slate-50 flex items-center space-x-2">
                     <span class="text-xs font-bold text-slate-700">No.</span>
@@ -76,70 +73,54 @@
             <table class="w-full text-xs report-table border-collapse">
                 <tbody>
                     <tr>
-                        <td class="bg-slate-100 font-bold w-28" data-i18n="tbl-project">Project</td>
-                        <td colspan="3"><input type="text" id="rep-project" value="BNCP Package Infrastructure Construction" class="w-full outline-none font-medium text-slate-800"></td>
-                        <td class="bg-slate-100 font-bold w-28" data-i18n="tbl-location">Location</td>
-                        <td><input type="text" id="rep-location" value="Site Area A & B" class="w-full outline-none font-medium text-slate-800"></td>
+                        <td class="bg-slate-100 font-bold w-28" data-i18n="tbl-dept">Department</td>
+                        <td><input type="text" id="rep-dept" value="Civil Works Division" class="w-full outline-none font-medium text-slate-800"></td>
+                        <td class="bg-slate-100 font-bold w-28" data-i18n="tbl-date">Date</td>
+                        <td><input type="date" id="rep-date" class="w-full outline-none font-medium text-slate-800"></td>
                         <td class="bg-slate-100 font-bold w-28" data-i18n="tbl-weather">Weather</td>
-                        <td>
-                            <input type="text" id="rep-weather" placeholder="A.M. Sunny / P.M. Cloudy" class="w-full outline-none">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="bg-slate-100 font-bold" data-i18n="tbl-contract">Contract No.</td>
-                        <td colspan="3"><input type="text" id="rep-contract" value="BNCP-CIV-2026-04" class="w-full outline-none font-medium"></td>
-                        <td class="bg-slate-100 font-bold" data-i18n="tbl-date">Date</td>
-                        <td><input type="date" id="rep-date" class="w-full outline-none font-medium"></td>
-                        <td class="bg-slate-100 font-bold" data-i18n="tbl-temp">Temperature</td>
-                        <td><input type="text" id="rep-temp" placeholder="Min 23℃ / Max 35℃" class="w-full outline-none"></td>
-                    </tr>
-                    <tr>
-                        <td class="bg-slate-100 font-bold" data-i18n="tbl-contractor">Contractor</td>
-                        <td colspan="3"><input type="text" id="rep-contractor" value="Global Engineering & Const." class="w-full outline-none font-medium"></td>
-                        <td class="bg-slate-100 font-bold" data-i18n="tbl-dept">Department</td>
-                        <td colspan="3"><input type="text" id="rep-dept" value="Civil Works Division" class="w-full outline-none font-medium"></td>
+                        <td><input type="text" id="rep-weather" value="A.M. Sunny / P.M. Cloudy" class="w-full outline-none font-medium text-slate-800"></td>
+                        <td class="bg-slate-100 font-bold w-28" data-i18n="tbl-temp">Temperature</td>
+                        <td><input type="text" id="rep-temp" value="Min 23℃ / Max 35℃" class="w-full outline-none font-medium text-slate-800"></td>
                     </tr>
                 </tbody>
             </table>
 
-            <!-- 1. WORK ACTIVITIES (공종별 세부 실적 입력 및 목록) -->
+            <!-- 1. WORK ACTIVITIES -->
             <div class="space-y-3">
                 <div class="bg-blue-900 text-white px-4 py-2 font-bold text-xs tracking-wide rounded-t flex justify-between items-center">
                     <span data-i18n="sec-work-act">1. WORK ACTIVITIES & PERFORMANCE</span>
-                    <span class="text-[10px] text-blue-200 font-normal" data-i18n="sec-work-sub">부대토목 공종별 세부 실적 등록</span>
+                    <span class="text-[10px] text-blue-200 font-normal" data-i18n="sec-work-sub">Detailed Civil Works Performance</span>
                 </div>
 
-                <!-- 실적 입력 폼 -->
                 <form id="report-form" class="bg-slate-50 p-3 rounded border border-slate-300 grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                     <div class="md:col-span-3">
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-cat">공종 분류 (Category)</label>
-                        <input type="text" id="rep-category" list="category-list" placeholder="선택 또는 직접입력" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500" required>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-cat">Work Category</label>
+                        <input type="text" id="rep-category" list="category-list" placeholder="Select or type..." class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500" required>
                         <datalist id="category-list">
-                            <option value="Earth Work (토공사)">
-                            <option value="Drainage Work (배수시설공)">
-                            <option value="Pavement Work (포장공)">
-                            <option value="Structure Work (구조물공)">
-                            <option value="Utility Work (유틸리티)">
+                            <option value="Earth Work">
+                            <option value="Drainage Work">
+                            <option value="Pavement Work">
+                            <option value="Structure Work">
+                            <option value="Utility Work">
                         </datalist>
                     </div>
                     <div class="md:col-span-4">
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-desc">세부 작업 위치 및 항목</label>
-                        <input type="text" id="rep-desc" placeholder="예: 진입도로 구간 우수관로 터파기" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500" required>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-desc">Activity / Description</label>
+                        <input type="text" id="rep-desc" placeholder="e.g., Excavation for drainage pipe" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500" required>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-today">금일 실적</label>
-                        <input type="number" step="0.01" id="rep-today" placeholder="수량" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500" required>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-today">Today's Perf (Opt)</label>
+                        <input type="number" step="0.01" id="rep-today" placeholder="Quantity" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500">
                     </div>
                     <div class="md:col-span-1">
-                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-unit">단위</label>
-                        <input type="text" id="rep-unit" placeholder="m3" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500" required>
+                        <label class="block text-[11px] font-semibold text-slate-600 mb-1" data-i18n="lbl-unit">Unit</label>
+                        <input type="text" id="rep-unit" placeholder="m3" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-blue-500">
                     </div>
                     <div class="md:col-span-2">
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded text-xs transition shadow" data-i18n="btn-add-item">+ 항목 추가</button>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1.5 px-3 rounded text-xs transition shadow" data-i18n="btn-add-item">+ Add Item</button>
                     </div>
                 </form>
 
-                <!-- 실적 목록 테이블 -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs report-table border-collapse">
                         <thead>
@@ -153,43 +134,39 @@
                                 <th class="w-16" data-i18n="th-manage">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="report-table-body">
-                            <!-- 동적 렌더링 -->
-                        </tbody>
+                        <tbody id="report-table-body"></tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- 2. MANPOWER & 3. EQUIPMENT (투입 인원 및 장비) -->
+            <!-- 2. MANPOWER & 3. EQUIPMENT -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
                 <!-- 2. MANPOWER -->
                 <div class="space-y-3">
                     <div class="bg-blue-900 text-white px-4 py-2 font-bold text-xs tracking-wide rounded-t flex justify-between items-center">
                         <span data-i18n="sec-manpower">2. MANPOWER DEPLOYMENT</span>
-                        <span id="resource-count" class="text-[10px] text-blue-200">0건</span>
+                        <span id="resource-count" class="text-[10px] text-blue-200">0</span>
                     </div>
-                    <!-- 인원 입력 폼 -->
                     <form id="resource-form" class="bg-slate-50 p-3 rounded border border-slate-300 grid grid-cols-1 sm:grid-cols-12 gap-2 items-end">
-                        <input type="hidden" id="res-type" value="인력 (Labor)">
+                        <input type="hidden" id="res-type" value="Labor">
                         <div class="sm:col-span-6">
-                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-res-name">직종명 (Position)</label>
-                            <input type="text" id="res-name" list="labor-list" placeholder="예: 토목공" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
+                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-res-name">Position / Name</label>
+                            <input type="text" id="res-name" list="labor-list" placeholder="e.g., Civil Worker" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
                             <datalist id="labor-list">
-                                <option value="토목공 (Civil Worker)">
-                                <option value="철근공 (Reinforcement Worker)">
-                                <option value="형틀공 (Form Carpenter)">
-                                <option value="보통인부 (General Laborer)">
-                                <option value="측량사 (Surveyor)">
-                                <option value="안전관리자 (Safety Manager)">
+                                <option value="Civil Worker">
+                                <option value="Reinforcement Worker">
+                                <option value="Form Carpenter">
+                                <option value="General Laborer">
+                                <option value="Surveyor">
+                                <option value="Safety Manager">
                             </datalist>
                         </div>
                         <div class="sm:col-span-4">
-                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-res-count">투입 인원 (Headcount)</label>
-                            <input type="number" step="0.5" id="res-count" placeholder="인원" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
+                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-res-count">Headcount</label>
+                            <input type="number" step="0.5" id="res-count" placeholder="Count" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
                         </div>
                         <div class="sm:col-span-2">
-                            <button type="submit" class="w-full bg-cyan-700 hover:bg-cyan-800 text-white font-semibold py-1.5 px-2 rounded text-xs transition" data-i18n="btn-add-res">등록</button>
+                            <button type="submit" class="w-full bg-cyan-700 hover:bg-cyan-800 text-white font-semibold py-1.5 px-2 rounded text-xs transition" data-i18n="btn-add-res">Add</button>
                         </div>
                     </form>
 
@@ -203,9 +180,7 @@
                                     <th class="w-16 text-center" data-i18n="th-manage">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="resource-table-body">
-                                <!-- 동적 렌더링 -->
-                            </tbody>
+                            <tbody id="resource-table-body"></tbody>
                         </table>
                     </div>
                 </div>
@@ -214,28 +189,27 @@
                 <div class="space-y-3">
                     <div class="bg-blue-900 text-white px-4 py-2 font-bold text-xs tracking-wide rounded-t flex justify-between items-center">
                         <span data-i18n="sec-equipment">3. EQUIPMENT DEPLOYMENT</span>
-                        <span class="text-[10px] text-blue-200" data-i18n="sec-equip-sub">장비 현황</span>
+                        <span class="text-[10px] text-blue-200" data-i18n="sec-equip-sub">Equipment Status</span>
                     </div>
-                    <!-- 장비 입력 폼 -->
                     <form id="equipment-form" class="bg-slate-50 p-3 rounded border border-slate-300 grid grid-cols-1 sm:grid-cols-12 gap-2 items-end">
-                        <input type="hidden" id="eq-type" value="장비 (Equipment)">
+                        <input type="hidden" id="eq-type" value="Equipment">
                         <div class="sm:col-span-6">
-                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-eq-name">장비명 (Equipment Name)</label>
-                            <input type="text" id="eq-name" list="equip-list" placeholder="예: 백호 0.6W" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
+                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-eq-name">Equipment Name</label>
+                            <input type="text" id="eq-name" list="equip-list" placeholder="e.g., Excavator 0.6W" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
                             <datalist id="equip-list">
-                                <option value="백호 0.6W (Excavator)">
-                                <option value="덤프트럭 15T (Dump Truck)">
-                                <option value="진동로울러 (Roller)">
-                                <option value="불도저 (Bulldozer)">
-                                <option value="살수차 (Water Truck)">
+                                <option value="Excavator 0.6W">
+                                <option value="Dump Truck 15T">
+                                <option value="Vibratory Roller">
+                                <option value="Bulldozer">
+                                <option value="Water Truck">
                             </datalist>
                         </div>
                         <div class="sm:col-span-4">
-                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-eq-count">투입 대수 (Qty)</label>
-                            <input type="number" step="0.5" id="eq-count" placeholder="대수" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
+                            <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-eq-count">Quantity</label>
+                            <input type="number" step="0.5" id="eq-count" placeholder="Qty" class="w-full bg-white border border-slate-300 rounded px-2 py-1.5 text-xs" required>
                         </div>
                         <div class="sm:col-span-2">
-                            <button type="submit" class="w-full bg-cyan-700 hover:bg-cyan-800 text-white font-semibold py-1.5 px-2 rounded text-xs transition" data-i18n="btn-add-res">등록</button>
+                            <button type="submit" class="w-full bg-cyan-700 hover:bg-cyan-800 text-white font-semibold py-1.5 px-2 rounded text-xs transition" data-i18n="btn-add-res">Add</button>
                         </div>
                     </form>
 
@@ -249,51 +223,18 @@
                                     <th class="w-16 text-center" data-i18n="th-manage">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="equipment-table-body">
-                                <!-- 동적 렌더링 -->
-                            </tbody>
+                            <tbody id="equipment-table-body"></tbody>
                         </table>
                     </div>
                 </div>
-
             </div>
 
-            <!-- 4. PROGRESS & 5. NOTE -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- 4. PROGRESS RATE -->
-                <div class="space-y-3">
-                    <div class="bg-blue-900 text-white px-4 py-2 font-bold text-xs tracking-wide rounded-t">
-                        <span data-i18n="sec-progress">4. OVERALL PROGRESS RATE</span>
-                    </div>
-                    <div class="bg-slate-50 p-4 rounded border border-slate-300 space-y-4">
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1">
-                                <span data-i18n="lbl-plan-rate">Planned Progress</span>
-                                <span class="font-bold text-slate-700">72.5%</span>
-                            </div>
-                            <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-slate-500 h-2.5 rounded-full" style="width: 72.5%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-xs font-semibold mb-1">
-                                <span data-i18n="lbl-ach-rate">Achieved Progress</span>
-                                <span class="font-bold text-emerald-600">68.4%</span>
-                            </div>
-                            <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                                <div class="bg-emerald-600 h-2.5 rounded-full" style="width: 68.4%"></div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- 5. REMARKS / NEXT PLAN -->
+            <div class="space-y-3 flex flex-col">
+                <div class="bg-blue-900 text-white px-4 py-2 font-bold text-xs tracking-wide rounded-t">
+                    <span data-i18n="sec-notes">5. REMARKS / NEXT PLAN</span>
                 </div>
-
-                <!-- 5. NOTES & NEXT PLAN -->
-                <div class="space-y-3 flex flex-col">
-                    <div class="bg-blue-900 text-white px-4 py-2 font-bold text-xs tracking-wide rounded-t">
-                        <span data-i18n="sec-notes">5. REMARKS / NEXT PLAN</span>
-                    </div>
-                    <textarea id="site-note" rows="4" placeholder="• 특이사항 및 익일 작업계획 입력..." class="w-full bg-slate-50 border border-slate-300 rounded p-3 text-xs resize-none focus:ring-1 focus:ring-blue-500 flex-grow"></textarea>
-                </div>
+                <textarea id="site-note" rows="4" placeholder="• Enter remarks or next plan details..." class="w-full bg-slate-50 border border-slate-300 rounded p-3 text-xs resize-none focus:ring-1 focus:ring-blue-500"></textarea>
             </div>
 
             <!-- 6. SITE PHOTOS GALLERY -->
@@ -305,21 +246,19 @@
                 
                 <form id="photo-form" class="bg-slate-50 p-3 rounded border border-slate-300 grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
                     <div class="sm:col-span-4">
-                        <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-photo-desc">사진 설명 / 위치</label>
-                        <input type="text" id="photo-desc" placeholder="예: 진입로 우수관 부설 완료" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs" required>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-photo-desc">Description / Location</label>
+                        <input type="text" id="photo-desc" placeholder="e.g., Drainage pipe installation completed" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1.5 text-xs" required>
                     </div>
                     <div class="sm:col-span-6">
-                        <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-photo-file">이미지 선택</label>
+                        <label class="block text-[10px] font-semibold text-slate-600 mb-1" data-i18n="lbl-photo-file">Select Image</label>
                         <input type="file" id="photo-file" accept="image/*" class="w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer" required>
                     </div>
                     <div class="sm:col-span-2">
-                        <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-1.5 px-3 rounded text-xs transition" data-i18n="btn-upload-photo">+ 업로드</button>
+                        <button type="submit" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-semibold py-1.5 px-3 rounded text-xs transition" data-i18n="btn-upload-photo">+ Upload</button>
                     </div>
                 </form>
 
-                <div id="photo-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-                    <!-- 동적 렌더링 -->
-                </div>
+                <div id="photo-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2"></div>
             </div>
 
             <!-- 7. SIGNATURES -->
@@ -351,7 +290,6 @@
 
     <!-- Script Logic -->
     <script>
-        // 다국어 사전
         const translations = {
             ko: {
                 "top-bar-title": "DAILY CONSTRUCTION REPORT SYSTEM",
@@ -359,79 +297,15 @@
                 "filter-title": "날짜별 일보 기록 조회",
                 "filter-desc": "날짜를 선택하여 해당 일자의 투입 및 실적 내역을 확인하세요.",
                 "btn-all-period": "전체보기",
-                "tbl-project": "Project",
-                "tbl-location": "Location",
-                "tbl-weather": "Weather",
-                "tbl-contract": "Contract No.",
-                "tbl-date": "Date",
-                "tbl-temp": "Temperature",
-                "tbl-contractor": "Contractor",
                 "tbl-dept": "Department",
-                "sec-work-act": "1. WORK ACTIVITIES & PERFORMANCE",
-                "sec-work-sub": "부대토목 공종별 세부 실적 등록",
-                "lbl-cat": "공종 분류 (Category)",
-                "lbl-desc": "세부 작업 위치 및 항목",
-                "lbl-today": "금일 실적",
-                "lbl-unit": "단위",
-                "btn-add-item": "+ 항목 추가",
-                "th-cat": "Category",
-                "th-item-desc": "Activity / Description",
-                "th-today-perf": "Today",
-                "th-total-perf": "Cumulative",
-                "th-unit": "Unit",
-                "th-manage": "Action",
-                "sec-manpower": "2. MANPOWER DEPLOYMENT",
-                "lbl-res-name": "직종명 (Position)",
-                "lbl-res-count": "투입 인원",
-                "btn-add-res": "등록",
-                "th-name": "Position / Name",
-                "th-today-qty": "Today Qty",
-                "th-total-qty": "Cumulative",
-                "sec-equipment": "3. EQUIPMENT DEPLOYMENT",
-                "sec-equip-sub": "장비 현황",
-                "lbl-eq-name": "장비명",
-                "lbl-eq-count": "대수",
-                "th-equip-name": "Equipment Name",
-                "sec-progress": "4. OVERALL PROGRESS RATE",
-                "lbl-plan-rate": "Planned Progress",
-                "lbl-ach-rate": "Achieved Progress",
-                "sec-notes": "5. REMARKS / NEXT PLAN",
-                "sec-photo-gallery": "6. SITE WORK PHOTOS",
-                "lbl-photo-desc": "사진 설명 / 위치",
-                "lbl-photo-file": "이미지 선택",
-                "btn-upload-photo": "+ 업로드",
-                "sec-signatures": "7. SIGNATURES",
-                "sig-prepared": "Prepared By",
-                "sig-checked": "Checked By",
-                "sig-approved": "Approved By",
-                "sig-name": "Name",
-                "sig-date": "Date",
-                "msg-no-rep": "등록된 실적 데이터가 없습니다.",
-                "msg-no-res": "등록된 인력 데이터가 없습니다.",
-                "msg-no-eq": "등록된 장비 데이터가 없습니다.",
-                "msg-no-photo": "등록된 현장 사진이 없습니다.",
-                "btn-delete": "삭제",
-                "alert-no-data": "다운로드할 데이터가 없습니다."
-            },
-            en: {
-                "top-bar-title": "DAILY CONSTRUCTION REPORT SYSTEM",
-                "btn-excel": "Excel Export",
-                "filter-title": "Filter Daily Report by Date",
-                "filter-desc": "Select a date to view corresponding site data.",
-                "btn-all-period": "All Period",
-                "tbl-project": "Project",
-                "tbl-location": "Location",
-                "tbl-weather": "Weather",
-                "tbl-contract": "Contract No.",
                 "tbl-date": "Date",
+                "tbl-weather": "Weather",
                 "tbl-temp": "Temperature",
-                "tbl-contractor": "Contractor",
-                "tbl-dept": "Department",
                 "sec-work-act": "1. WORK ACTIVITIES & PERFORMANCE",
                 "sec-work-sub": "Detailed Civil Works Performance",
                 "lbl-cat": "Work Category",
                 "lbl-desc": "Activity / Description",
-                "lbl-today": "Today's Perf",
+                "lbl-today": "Today's Perf (Opt)",
                 "lbl-unit": "Unit",
                 "btn-add-item": "+ Add Item",
                 "th-cat": "Category",
@@ -452,9 +326,59 @@
                 "lbl-eq-name": "Equipment Name",
                 "lbl-eq-count": "Quantity",
                 "th-equip-name": "Equipment Name",
-                "sec-progress": "4. OVERALL PROGRESS RATE",
-                "lbl-plan-rate": "Planned Progress",
-                "lbl-ach-rate": "Achieved Progress",
+                "sec-notes": "5. REMARKS / NEXT PLAN",
+                "sec-photo-gallery": "6. SITE WORK PHOTOS",
+                "lbl-photo-desc": "Description / Location",
+                "lbl-photo-file": "Select Image",
+                "btn-upload-photo": "+ Upload",
+                "sec-signatures": "7. SIGNATURES",
+                "sig-prepared": "Prepared By",
+                "sig-checked": "Checked By",
+                "sig-approved": "Approved By",
+                "sig-name": "Name",
+                "sig-date": "Date",
+                "msg-no-rep": "No performance data available.",
+                "msg-no-res": "No manpower data available.",
+                "msg-no-eq": "No equipment data available.",
+                "msg-no-photo": "No site photos registered.",
+                "btn-delete": "Delete",
+                "alert-no-data": "No data available for download."
+            },
+            en: {
+                "top-bar-title": "DAILY CONSTRUCTION REPORT SYSTEM",
+                "btn-excel": "Excel Export",
+                "filter-title": "Filter Daily Report by Date",
+                "filter-desc": "Select a date to view corresponding site data.",
+                "btn-all-period": "All Period",
+                "tbl-dept": "Department",
+                "tbl-date": "Date",
+                "tbl-weather": "Weather",
+                "tbl-temp": "Temperature",
+                "sec-work-act": "1. WORK ACTIVITIES & PERFORMANCE",
+                "sec-work-sub": "Detailed Civil Works Performance",
+                "lbl-cat": "Work Category",
+                "lbl-desc": "Activity / Description",
+                "lbl-today": "Today's Perf (Opt)",
+                "lbl-unit": "Unit",
+                "btn-add-item": "+ Add Item",
+                "th-cat": "Category",
+                "th-item-desc": "Activity / Description",
+                "th-today-perf": "Today",
+                "th-total-perf": "Cumulative",
+                "th-unit": "Unit",
+                "th-manage": "Action",
+                "sec-manpower": "2. MANPOWER DEPLOYMENT",
+                "lbl-res-name": "Position / Name",
+                "lbl-res-count": "Headcount",
+                "btn-add-res": "Add",
+                "th-name": "Position / Name",
+                "th-today-qty": "Today Qty",
+                "th-total-qty": "Cumulative",
+                "sec-equipment": "3. EQUIPMENT DEPLOYMENT",
+                "sec-equip-sub": "Equipment Status",
+                "lbl-eq-name": "Equipment Name",
+                "lbl-eq-count": "Quantity",
+                "th-equip-name": "Equipment Name",
                 "sec-notes": "5. REMARKS / NEXT PLAN",
                 "sec-photo-gallery": "6. SITE WORK PHOTOS",
                 "lbl-photo-desc": "Description / Location",
@@ -500,7 +424,6 @@
         document.getElementById('rep-date').value = todayStr;
         document.getElementById('filter-date').value = todayStr;
 
-        // LocalStorage 데이터 관리
         let reports = JSON.parse(localStorage.getItem('bncp_dcr_reports')) || [];
         let resources = JSON.parse(localStorage.getItem('bncp_dcr_resources')) || [];
         let equipments = JSON.parse(localStorage.getItem('bncp_dcr_equipments')) || [];
@@ -509,13 +432,10 @@
         const filterDateInput = document.getElementById('filter-date');
         const reportForm = document.getElementById('report-form');
         const reportTableBody = document.getElementById('report-table-body');
-        
         const resourceForm = document.getElementById('resource-form');
         const resourceTableBody = document.getElementById('resource-table-body');
-
         const equipmentForm = document.getElementById('equipment-form');
         const equipmentTableBody = document.getElementById('equipment-table-body');
-
         const photoForm = document.getElementById('photo-form');
         const photoGallery = document.getElementById('photo-gallery');
 
@@ -530,7 +450,6 @@
             const filterText = selectedDate ? `[${selectedDate}]` : (currentLang === 'ko' ? '[전체 기간]' : '[All Period]');
             document.getElementById('photo-filter-title').innerText = filterText;
 
-            // 누계 계산 함수
             function getCumulativeReport(cat, desc) {
                 return reports.filter(r => r.category === cat && r.desc === desc).reduce((sum, c) => sum + parseFloat(c.today || 0), 0);
             }
@@ -541,7 +460,6 @@
                 return equipments.filter(r => r.name === name).reduce((sum, c) => sum + parseFloat(c.count || 0), 0);
             }
 
-            // 1. 공종 실적 렌더링
             reportTableBody.innerHTML = '';
             if (filteredReports.length === 0) {
                 reportTableBody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">${translations[currentLang]['msg-no-rep']}</td></tr>`;
@@ -549,21 +467,22 @@
                 filteredReports.forEach((item, idx) => {
                     const originalIdx = reports.indexOf(item);
                     const cumVal = getCumulativeReport(item.category, item.desc);
+                    const todayDisplay = item.today !== "" && !isNaN(item.today) ? item.today : "-";
+                    const cumDisplay = !isNaN(cumVal) && cumVal !== 0 ? cumVal.toLocaleString() : "-";
                     reportTableBody.innerHTML += `
                         <tr class="hover:bg-slate-50 text-center">
                             <td class="text-slate-500">${filteredReports.length - idx}</td>
                             <td class="text-left font-semibold text-blue-900">${item.category}</td>
                             <td class="text-left text-slate-800">${item.desc}</td>
-                            <td class="font-bold">${item.today}</td>
-                            <td class="font-extrabold text-blue-800 bg-blue-50/50">${cumVal.toLocaleString()}</td>
-                            <td>${item.unit}</td>
+                            <td class="font-bold">${todayDisplay}</td>
+                            <td class="font-extrabold text-blue-800 bg-blue-50/50">${cumDisplay}</td>
+                            <td>${item.unit || "-"}</td>
                             <td><button onclick="deleteData('reports', ${originalIdx})" class="text-red-600 hover:underline font-semibold text-[11px]">${translations[currentLang]['btn-delete']}</button></td>
                         </tr>
                     `;
                 });
             }
 
-            // 2. 인력 렌더링
             resourceTableBody.innerHTML = '';
             if (filteredResources.length === 0) {
                 resourceTableBody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">${translations[currentLang]['msg-no-res']}</td></tr>`;
@@ -582,7 +501,6 @@
                 });
             }
 
-            // 3. 장비 렌더링
             equipmentTableBody.innerHTML = '';
             if (filteredEquips.length === 0) {
                 equipmentTableBody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">${translations[currentLang]['msg-no-eq']}</td></tr>`;
@@ -601,7 +519,6 @@
                 });
             }
 
-            // 4. 사진 갤러리 렌더링
             photoGallery.innerHTML = '';
             if (filteredPhotos.length === 0) {
                 photoGallery.innerHTML = `<div class="col-span-full p-6 text-center text-slate-400 bg-slate-50 border border-dashed rounded">${translations[currentLang]['msg-no-photo']}</div>`;
@@ -622,7 +539,6 @@
             }
         }
 
-        // 이벤트 리스너 설정
         reportForm.addEventListener('submit', (e) => {
             e.preventDefault();
             reports.unshift({
