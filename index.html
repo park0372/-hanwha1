@@ -13,7 +13,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Pretendard', sans-serif; overflow-x: hidden; font-size: 11px; }
-        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 4px 6px; word-break: break-all; }
+        .report-table { table-layout: fixed; width: 100%; }
+        .report-table th, .report-table td { border: 1px solid #cbd5e1; padding: 4px 6px; word-break: break-all; overflow: hidden; }
         
         textarea.auto-expand {
             resize: none;
@@ -189,11 +190,11 @@
                         <table class="w-full text-[11px] report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
-                                    <th class="w-[32%]">Position / Name</th>
-                                    <th class="w-[12%] text-center">Today</th>
-                                    <th class="w-[22%] text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th class="w-[22%] text-center">Remark</th>
-                                    <th class="w-[12%] text-center no-print">Action</th>
+                                    <th style="width: 36%;">Position / Name</th>
+                                    <th style="width: 13%;" class="text-center">Today</th>
+                                    <th style="width: 27%;" class="text-center bg-blue-50 text-blue-900">Cumulative</th>
+                                    <th style="width: 12%;" class="text-center">Remark</th>
+                                    <th style="width: 12%;" class="text-center no-print">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="resource-table-body"></tbody>
@@ -227,11 +228,11 @@
                         <table class="w-full text-[11px] report-table border-collapse">
                             <thead>
                                 <tr class="bg-slate-100 text-slate-700">
-                                    <th class="w-[32%]">Equipment Name</th>
-                                    <th class="w-[12%] text-center">Today</th>
-                                    <th class="w-[22%] text-center bg-blue-50 text-blue-900">Cumulative</th>
-                                    <th class="w-[22%] text-center">Remark</th>
-                                    <th class="w-[12%] text-center no-print">Action</th>
+                                    <th style="width: 36%;">Equipment Name</th>
+                                    <th style="width: 13%;" class="text-center">Today</th>
+                                    <th style="width: 27%;" class="text-center bg-blue-50 text-blue-900">Cumulative</th>
+                                    <th style="width: 12%;" class="text-center">Remark</th>
+                                    <th style="width: 12%;" class="text-center no-print">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="equipment-table-body"></tbody>
